@@ -7,7 +7,4 @@ while i!=-1:
     l1.append(l[i])
     i=i-1
 r=' '.join(l1)
-print(r)
-
-    
-    
+print(r)    
