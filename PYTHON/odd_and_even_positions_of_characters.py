@@ -1,3 +1,4 @@
+'program to print characters at odd position and even position for the given String'
 s=input("enter a string:")
 print("the character which are at odd positions are:")
 for i in range(0,len(s),2):
