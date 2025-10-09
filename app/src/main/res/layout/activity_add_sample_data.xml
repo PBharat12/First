@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sample Data Generator"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp" />
+
+    <Button
+        android:id="@+id/btnAddSupervisors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Sample Supervisors"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This will add sample supervisor data to your Firestore database for testing purposes."
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:alpha="0.7" />
+
+</LinearLayout>

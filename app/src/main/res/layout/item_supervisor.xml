@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/supervisorCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="3dp"
+    app:strokeColor="#E0E0E0"
+    app:strokeWidth="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Profile Image Placeholder -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/profileImageCard"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:cardBackgroundColor="#E3F2FD"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvProfileInitial"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="DR"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Supervisor Name -->
+        <TextView
+            android:id="@+id/tvSupervisorName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="Dr. John Smith"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/availabilityBadge"
+            app:layout_constraintStart_toEndOf="@id/profileImageCard"
+            app:layout_constraintTop_toTopOf="@id/profileImageCard" />
+
+        <!-- Availability Badge -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/availabilityBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#4CAF50"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/profileImageCard">
+
+            <TextView
+                android:id="@+id/tvAvailability"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="Available"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Department -->
+        <TextView
+            android:id="@+id/tvDepartment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Computer Science"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/tvSupervisorName"
+            app:layout_constraintStart_toStartOf="@id/tvSupervisorName"
+            app:layout_constraintTop_toBottomOf="@id/tvSupervisorName" />
+
+        <!-- Specialization -->
+        <TextView
+            android:id="@+id/tvSpecialization"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Artificial Intelligence, Machine Learning"
+            android:textColor="@color/gray"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/tvDepartment"
+            app:layout_constraintStart_toStartOf="@id/tvDepartment"
+            app:layout_constraintTop_toBottomOf="@id/tvDepartment" />
+
+        <!-- Request Capacity Info -->
+        <LinearLayout
+            android:id="@+id/capacityContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/tvSpecialization"
+            app:layout_constraintStart_toStartOf="@id/tvSpecialization"
+            app:layout_constraintTop_toBottomOf="@id/tvSpecialization">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Capacity: "
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvCapacity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5/20"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Bio Preview -->
+        <TextView
+            android:id="@+id/tvBioPreview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="Experienced professor with 15+ years in AI research and development..."
+            android:textColor="@color/gray"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/capacityContainer"
+            app:layout_constraintStart_toStartOf="@id/capacityContainer"
+            app:layout_constraintTop_toBottomOf="@id/capacityContainer" />
+
+        <!-- Contact Info -->
+        <LinearLayout
+            android:id="@+id/contactContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/tvBioPreview"
+            app:layout_constraintStart_toStartOf="@id/tvBioPreview"
+            app:layout_constraintTop_toBottomOf="@id/tvBioPreview">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📧"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:text="john.smith@university.edu"
+                android:textColor="@color/gray"
+                android:textSize="11sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="📞"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="+1-234-567-8900"
+                android:textColor="@color/gray"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
