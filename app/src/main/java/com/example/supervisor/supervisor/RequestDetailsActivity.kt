@@ -24,8 +24,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.supervisor.R
-import com.example.supervisor.adapter.TeamMemberAdapter
-import com.example.supervisor.data.TeamMember
+import com.example.supervisor.adapter.TeamMemberMapAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.*
 import java.io.ByteArrayInputStream
@@ -53,8 +52,8 @@ class RequestDetailsActivity : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
     private var requestId: String? = null
-    private var teamAdapter: TeamMemberAdapter? = null
-    private val teamList = mutableListOf<TeamMember>()
+    private var teamAdapter: TeamMemberMapAdapter? = null
+    private val teamList = mutableListOf<Map<String, String>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +76,7 @@ class RequestDetailsActivity : AppCompatActivity() {
         supervisorId = intent.getStringExtra("supervisor_id") ?: ""
 
         rvTeamMembers.layoutManager = LinearLayoutManager(this)
-        teamAdapter = TeamMemberAdapter(teamList)
+        teamAdapter = TeamMemberMapAdapter(teamList)
         rvTeamMembers.adapter = teamAdapter
 
         btnAccept.setOnClickListener {
@@ -153,26 +152,20 @@ class RequestDetailsActivity : AppCompatActivity() {
     private fun generateDocumentBytes(): ByteArray {
         val members = teamList
         
-        fun getSafe(list: List<TeamMember>, idx: Int, accessor: (TeamMember) -> String): String {
-            return list.getOrNull(idx)?.let(accessor) ?: ""
+        fun getSafe(list: List<Map<String,String>>, idx: Int, key: String, fallback: String = ""): String {
+            return list.getOrNull(idx)?.get(key) ?: fallback
         }
 
         val placeholders = mapOf(
-            "\${roll1}" to getSafe(members, 0) { it.rollNo },
-            "\${name1}" to getSafe(members, 0) { it.name },
-            "\${contact1}" to getSafe(members, 0) { 
-                listOf(it.mobile, it.email).filter { str -> str.isNotBlank() }.joinToString(" / ") 
-            },
-            "\${roll2}" to getSafe(members, 1) { it.rollNo },
-            "\${name2}" to getSafe(members, 1) { it.name },
-            "\${contact2}" to getSafe(members, 1) { 
-                listOf(it.mobile, it.email).filter { str -> str.isNotBlank() }.joinToString(" / ") 
-            },
-            "\${roll3}" to getSafe(members, 2) { it.rollNo },
-            "\${name3}" to getSafe(members, 2) { it.name },
-            "\${contact3}" to getSafe(members, 2) { 
-                listOf(it.mobile, it.email).filter { str -> str.isNotBlank() }.joinToString(" / ") 
-            },
+            "\${roll1}" to (getSafe(members, 0, "roll", getSafe(members, 0, "rollNo"))),
+            "\${name1}" to (getSafe(members, 0, "name", getSafe(members, 0, "fullName"))),
+            "\${contact1}" to listOf(getSafe(members,0,"mobile"), getSafe(members,0,"email")).filter { it.isNotBlank() }.joinToString(" / "),
+            "\${roll2}" to (getSafe(members, 1, "roll", getSafe(members, 1, "rollNo"))),
+            "\${name2}" to (getSafe(members, 1, "name", getSafe(members, 1, "fullName"))),
+            "\${contact2}" to listOf(getSafe(members,1,"mobile"), getSafe(members,1,"email")).filter { it.isNotBlank() }.joinToString(" / "),
+            "\${roll3}" to (getSafe(members, 2, "roll", getSafe(members, 2, "rollNo"))),
+            "\${name3}" to (getSafe(members, 2, "name", getSafe(members, 2, "fullName"))),
+            "\${contact3}" to listOf(getSafe(members,2,"mobile"), getSafe(members,2,"email")).filter { it.isNotBlank() }.joinToString(" / "),
             "\${projectTitle}" to (tvProjectTitle.text?.toString().orEmpty()),
             "\${projectAbstract}" to (tvProjectSummary.text?.toString().orEmpty())
         )
@@ -396,20 +389,10 @@ class RequestDetailsActivity : AppCompatActivity() {
                     tvProjectSummary.text = document.getString("projectSummary")
                     tvRequestDate.text = "Requested on: ${document.getString("requestDate")}"
 
-                    // Convert Map<String, String> to TeamMember objects
-                    val members = document.get("teamMembers") as? List<HashMap<String, Any>>
+                    val members = document.get("teamMembers") as? List<Map<String, String>>
                     if (members != null) {
                         teamList.clear()
-                        members.forEach { memberMap ->
-                            val teamMember = TeamMember(
-                                name = memberMap["name"] as? String ?: memberMap["fullName"] as? String ?: "",
-                                rollNo = memberMap["rollNo"] as? String ?: memberMap["roll"] as? String ?: "",
-                                email = memberMap["email"] as? String ?: "",
-                                mobile = memberMap["mobile"] as? String ?: memberMap["contact"] as? String ?: "",
-                                role = memberMap["role"] as? String ?: "Member"
-                            )
-                            teamList.add(teamMember)
-                        }
+                        teamList.addAll(members)
                         teamAdapter?.notifyDataSetChanged()
                     }
 
